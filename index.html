@@ -30,8 +30,8 @@
   <p class="sub">A tiny original arcade game: click stars before time runs out.</p>
   <section class="stats" aria-label="Game status">
     <div class="stat">Score<strong id="score">0</strong></div>
-    <div class="stat">Time<strong id="time">30</strong></div>
-    <div class="stat">Target<strong>15 points</strong></div>
+    <div class="stat">Time<strong id="time">60</strong></div>
+    <div class="stat">Target<strong>10 points</strong></div>
   </section>
   <div class="arena" id="arena" aria-label="Game area"></div>
   <p class="message" id="message" aria-live="polite">Press Start, then click the stars as quickly as you can.</p>
@@ -39,7 +39,7 @@
     <button class="action" id="start">Start game</button>
     <button class="action secondary" id="reset">Reset</button>
   </div>
-  <p class="help"><b>Controls:</b> Mouse or touchscreen. Each star is worth 1 point. Reach 15 points in 30 seconds to win.</p>
+  <p class="help"><b>Controls:</b> Mouse or touchscreen. Each star is worth 1 point. Reach 10 points in 60 seconds to win.</p>
 </main>
 <script>
 (() => {
@@ -49,7 +49,7 @@
   const message = document.getElementById('message');
   const startBtn = document.getElementById('start');
   const resetBtn = document.getElementById('reset');
-  let score = 0, time = 30, running = false, clock = null, spawn = null;
+  let score = 0, time = 60, running = false, clock = null, spawn = null;
 
   function clearTimers() {
     if (clock) clearInterval(clock);
@@ -81,28 +81,28 @@
       scoreEl.textContent = score;
       star.remove();
       message.textContent = `Nice! Score: ${score}.`;
-      if (score >= 15) finish(true);
+      if (score >= 10) finish(true);
     });
     arena.appendChild(star);
     setTimeout(() => { if (star.isConnected) star.remove(); }, 1500);
   }
   function startGame() {
     clearTimers(); clearStars();
-    score = 0; time = 30; running = true;
+    score = 0; time = 60; running = true;
     scoreEl.textContent = score; timeEl.textContent = time;
-    message.textContent = 'Go! Collect 15 stars before the timer reaches zero.';
+    message.textContent = 'Go! Collect 10 stars before the timer reaches zero.';
     startBtn.textContent = 'Restart game';
     makeStar();
     spawn = setInterval(makeStar, 700);
     clock = setInterval(() => {
       time--;
       timeEl.textContent = time;
-      if (time <= 0) finish(score >= 15);
+      if (time <= 0) finish(score >= 10);
     }, 1000);
   }
   function resetGame() {
     running = false; clearTimers(); clearStars();
-    score = 0; time = 30;
+    score = 0; time = 60;
     scoreEl.textContent = score; timeEl.textContent = time;
     message.textContent = 'Press Start, then click the stars as quickly as you can.';
     startBtn.textContent = 'Start game';
